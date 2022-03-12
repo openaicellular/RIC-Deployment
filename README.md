@@ -22,6 +22,44 @@ This is a comment, it will not be included)
 [comment]: <> (in  the output file unless you use it in)
 [comment]: <> (a reference style link.)
 
+*This is a fork of the it-dep repository published by the O-RAN software community.* 
+
+# RIC Deployment Instructions
+
+Clone this repo and update all the submodules within this repo. You might need *root* access.
+```
+sudo -i
+git clone https://github.com/openaicellular/RIC-Deployment.git -b e_rel_xapp_onboarder_support
+cd RIC-Deployment
+git submodule update --init --recursive --remote
+```
+The *submodule update* will automatically get all the files from https://github.com/openaicellular/ric-plt-ric-dep.git and update them in the current directory.
+
+## Pre-requisite
+The RIC Platform is deployed as a Kubernetes cluster, so we will need to install Kubernetes (version > 1.16.0) and helm (version 2.17.0). We will also need to install a persistent volume  
+
+### 1-node Kubernetes Cluster & Helm Setup 
+The *tools* directory contains the required scripts to generate the Kubernetes, docker and helm installation script. Software versions can be changed by modifying the `/tools/k8s/etc/infra.rc` file.
+
+```
+cd tools/k8s/bin
+./gen-cloud-init.sh
+```
+
+This script will generate another script *k8s-1node-cloud-init-k_1_16-h_2_17-d_cur.sh*. Observe that the version of Kubernetes, helm and docker that will be installed in indicated in the name of the generated file **(k_1_16-h_2_17-d_cur)**. Run this script
+
+`./k8s-1node-cloud-init-k_1_16-h_2_17-d_cur.sh`
+Once the script is done, the VM will reboot. To check if Kubernetes was successfully installed, run
+
+`sudo kubectl get pods -A`
+
+You should see 9 pods in *kube-system* Namespace and their status should be *Running*.
+
+## Near-Real Time RIC Deployment
+
+## Non-Real Time RIC Deployment
+
+## RIC Aux Cluster Deployment
 
 # RIC Integration
   
@@ -54,12 +92,6 @@ The deployment scripts are designed to be modularized. Each submodule is managed
 The one-click RIC deployment/undeployment scripts in the ./bin directory will call the deployment/undeployment scripts in the corresponding submodule directory respectively.
 In each of the submodule directories, ./bin contains the binary and script files and ./helm contains the helm charts. For the rest of the non-submodule directories please refer to the README.md files in them for more details. 
 
-
-### Prerequisites
-
-To deploy RIC, you need to have a cluster that runs kubernetes (version > v.1.16.0) and helm (version v2.14.3).
-Tools to install a K8S environment in an openstack cloud can be found in ./tools/k8s.
-Please refer to the README.md file for more details 
 
 ### To deploy RIC Platform
 Choose a deployment recipe (e.g, ./RECIPE_EXAMPLE/PLATFORM/amber_example_recipe.yaml)
