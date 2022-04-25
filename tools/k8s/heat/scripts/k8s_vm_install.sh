@@ -133,6 +133,11 @@ elif [[ ${UBUNTU_RELEASE} == 18.* ]]; then
   if [ ! -z "${DOCKERV}" ]; then
     DOCKERVERSION="${DOCKERV}-0ubuntu1~18.04.4"
   fi
+elif [[ ${UBUNTU_RELEASE} == 20.* ]]; then
+  echo "Installing on Ubuntu $UBUNTU_RELEASE (Focal Fossa)"
+  if [ ! -z "${DOCKERV}" ]; then
+    DOCKERVERSION="${DOCKERV}-0ubuntu1~20.04.4"
+  fi
 else
   echo "Unsupported Ubuntu release ($UBUNTU_RELEASE) detected.  Exit."
   exit
