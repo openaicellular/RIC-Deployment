@@ -18,11 +18,6 @@ limitations under the Documentation License.
 
 -->
 
-This is a comment, it will not be included)
-[comment]: <> (in  the output file unless you use it in)
-[comment]: <> (a reference style link.)
-
-
 # RIC Integration
   
 This repo contains RAN Intelligent Controller (RIC) deployments related files.
