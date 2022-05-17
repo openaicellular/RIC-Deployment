@@ -37,17 +37,19 @@ RIC instance using Linux Foundation repositories in a self-contained environment
 
 
 ### Directory Structure
-.
-├── bin
-├── ci
-├── docs
-├── LICENSES.txt	License information
-├── README.md           This file
-├── RECIPE_EXAMPLE	Directory that contains deploy recipe examples
-├── ric-aux		Deployment scripts, charts and configuration files for RIC auxilary functions
-├── ric-common		Deployment scripts, charts and configuration files for RIC common template
-├── ric-dep	        Deployment scripts, charts and configuration files for RIC platform components
-└── tools		Deployment scripts, charts and configuration files for K8S deployment
+| Directory          | Description                                                                    |
+|--------------------|--------------------------------------------------------------------------------|
+| .                  |                                                                                |
+| ├── bin            |                                                                                |
+| ├── ci             |                                                                                |
+| ├── docs           |                                                                                |
+| ├── LICENSES.txt   | License information                                                            |
+| ├── README.md      | This file                                                                      |
+| ├── RECIPE_EXAMPLE | Directory that contains deploy recipe examples                                 |
+| ├── ric-aux        | Deployment scripts, charts and configuration files for RIC auxilary functions  |
+| ├── ric-common     | Deployment scripts, charts and configuration files for RIC common template     |
+| ├── ric-dep        | Deployment scripts, charts and configuration files for RIC platform components |
+| └── tools          | Deployment scripts, charts and configuration files for K8S deployment          |
 
 The deployment scripts are designed to be modularized. Each submodule is managed independently in other Git repo and they can be deployed and undeployed separately. These submodules are coupled together throught the ric-common template which provides common references to naming convention, settings, and configurations. Currently ric-dep is the submodule for RIC platform deployment, and ric-aux is the submodule for the auxilary functions deployment (currently ric-aux is still managed by it/dep repo). In the future, more submodules can be added without changing the structure.
 
