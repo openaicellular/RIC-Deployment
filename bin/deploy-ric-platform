@@ -85,7 +85,7 @@ fi
 
 $ROOT_DIR/prepare-common-templates
 
-$ROOT_DIR/../ric-dep/bin/install -f $OVERRIDEYAML
+$ROOT_DIR/../ric-dep/bin/install -f $OVERRIDEYAML -c "influxdb jaegeradapter"
 
 
 
