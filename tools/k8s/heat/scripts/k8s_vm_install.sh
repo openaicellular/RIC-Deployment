@@ -325,7 +325,7 @@ EOF
   kubectl get pods --all-namespaces
 
   # install flannel
-  kubectl apply -f "https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
+  kubectl apply -f "https://raw.githubusercontent.com/flannel-io/flannel/9de10c12c8266b0cfe09bc0d5c969ae28832239f/Documentation/kube-flannel.yml"
 
   # waiting for all 8 kube-system pods to be in running state
   # (at this point, minions have not joined yet)
