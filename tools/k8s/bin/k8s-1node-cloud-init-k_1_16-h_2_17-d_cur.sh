@@ -108,6 +108,11 @@ elif [[ ${UBUNTU_RELEASE} == 18.* ]]; then
   if [ ! -z "${DOCKERV}" ]; then
     DOCKERVERSION="${DOCKERV}-0ubuntu1~18.04.4"
   fi
+elif [[ ${UBUNTU_RELEASE} == 20.* ]]; then
+  echo "Installing on Ubuntu $UBUNTU_RELEASE (Focal Fossa)"
+  if [ ! -z "${DOCKERV}" ]; then
+    DOCKERVERSION="${DOCKERV}-0ubuntu1~20.04.4"
+  fi
 else
   echo "Unsupported Ubuntu release ($UBUNTU_RELEASE) detected.  Exit."
   exit
@@ -278,7 +283,7 @@ EOF
 
   kubectl get pods --all-namespaces
 
-  kubectl apply -f "https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
+  kubectl apply -f "https://raw.githubusercontent.com/flannel-io/flannel/9de10c12c8266b0cfe09bc0d5c969ae28832239f/Documentation/kube-flannel.yml"
 
   wait_for_pods_running 8 kube-system
 
