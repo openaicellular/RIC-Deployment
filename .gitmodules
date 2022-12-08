@@ -1,7 +1,7 @@
 [submodule "ric-dep"]
 	path = ric-dep
 	url = https://github.com/openaicellular/ric-plt-ric-dep.git
-	branch = e_rel_xapp_onboarder_support
+	branch = e2e-test_no-reboot
 [submodule "smo-install/onap_oom"]
 	path = smo-install/onap_oom
 	url = https://gerrit.onap.org/r/oom
