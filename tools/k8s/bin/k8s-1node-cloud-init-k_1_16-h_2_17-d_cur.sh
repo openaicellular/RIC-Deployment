@@ -361,4 +361,4 @@ EOF
   docker pull :/whoami:0.0.1
 fi
 
-if [ "$(uname -r)" != "4.15.0-45-lowlatency" ]; then reboot; fi
+#if [ "$(uname -r)" != "4.15.0-45-lowlatency" ]; then reboot; fi
