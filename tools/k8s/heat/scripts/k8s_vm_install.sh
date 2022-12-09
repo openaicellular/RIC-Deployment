@@ -418,4 +418,4 @@ EOF
   docker pull ${__RUNRICENV_DOCKER_HOST__}:${__RUNRICENV_DOCKER_PORT__}/whoami:0.0.1
 fi
 
-if [ "$(uname -r)" != "4.15.0-45-lowlatency" ]; then reboot; fi
+#if [ "$(uname -r)" != "4.15.0-45-lowlatency" ]; then reboot; fi
