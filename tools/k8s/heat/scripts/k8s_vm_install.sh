@@ -144,8 +144,8 @@ else
 fi
 
 
-curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
-echo 'deb http://apt.kubernetes.io/ kubernetes-xenial main' > /etc/apt/sources.list.d/kubernetes.list
+apt-get update && apt-get install -y apt-transport-https gnupg2 curl
+sh -c 'echo "deb https://raw.githubusercontent.com/openaicellular/kubernetes-xenial/ main" > /etc/apt/sources.list.d/kubernetes.list'
 
 # tell apt to retry 3 times if failed
 mkdir -p /etc/apt/apt.conf.d
