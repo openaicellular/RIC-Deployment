@@ -113,9 +113,8 @@ else
   exit
 fi
 
-
-curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
-echo 'deb http://apt.kubernetes.io/ kubernetes-xenial main' > /etc/apt/sources.list.d/kubernetes.list
+apt-get update && apt-get install -y apt-transport-https gnupg2 curl
+sh -c 'echo "deb https://raw.githubusercontent.com/openaicellular/kubernetes-xenial/ main" > /etc/apt/sources.list.d/kubernetes.list'
 
 mkdir -p /etc/apt/apt.conf.d
 echo "APT::Acquire::Retries \"3\";" > /etc/apt/apt.conf.d/80-retries
