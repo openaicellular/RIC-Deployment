@@ -145,14 +145,19 @@ fi
 
 
 apt-get update && apt-get install -y apt-transport-https gnupg2 curl
-sh -c 'echo "deb https://raw.githubusercontent.com/openaicellular/kubernetes-xenial/ main" > /etc/apt/sources.list.d/kubernetes.list'
 
 # tell apt to retry 3 times if failed
 mkdir -p /etc/apt/apt.conf.d
 echo "APT::Acquire::Retries \"3\";" > /etc/apt/apt.conf.d/80-retries
 
-# install low latency kernel, docker.io, and kubernetes
-apt-get update
+apt-get update 
+apt install -y socat ebtables ethtool conntrack
+
+# Download and install cri-tools
+wget https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/amd64/cri-tools_1.21.0~2_amd64.deb -O cri-tools.deb
+sudo dpkg -i cri-tools.deb
+rm cri-tools.deb
+
 RES=$(apt-get install -y virt-what curl jq netcat make ipset moreutils 2>&1)
 if [[ $RES == */var/lib/dpkg/lock* ]]; then
   echo "Fail to get dpkg lock.  Wait for any other package installation"
@@ -205,16 +210,34 @@ systemctl enable docker.service
 systemctl daemon-reload
 systemctl restart docker
 
-if [ -z ${CNIVERSION} ]; then
-  apt-get install -y $APTOPTS kubernetes-cni
-else
-  apt-get install -y $APTOPTS kubernetes-cni=${CNIVERSION}
-fi
+
 
 if [ -z ${KUBEVERSION} ]; then
-  apt-get install -y $APTOPTS kubeadm kubelet kubectl
+	git clone https://github.com/openaicellular/kubernetes-xenial.git
+	cd kubernetes-xenial
+	# Install kubernetes-cni
+	sudo dpkg -i kubernetes-cni_0.7.5-00_amd64_b38a324bb34f923d353203adf0e048f3b911f49fa32f1d82051a71ecfe2cd184.deb
+	# Install kubelet
+	sudo dpkg -i kubelet_1.16.0-00_amd64_e919939f5dad4bc7b0047fe2cf2870ab1946e87f948ab7f75bc1d63305436664_1.deb
+	# Install kubectl
+	sudo dpkg -i kubectl_1.16.0-00_amd64_679986772c12ed40781ae02317f3211f8615427c033194618ba2fdecc1cee43f.deb
+	# Install kubeadm
+	sudo dpkg -i kubeadm_1.16.0-00_amd64_b0fa26a7ac8cd90e9c3e388282828f320766264acc307b5bf45ffa79b5abed0c.deb
+	# Install dependencies (if any)
+	sudo apt-get install -f
 else
-  apt-get install -y $APTOPTS kubeadm=${KUBEVERSION} kubelet=${KUBEVERSION} kubectl=${KUBEVERSION}
+	git clone https://github.com/openaicellular/kubernetes-xenial.git
+	cd kubernetes-xenial
+	# Install kubernetes-cni
+	sudo dpkg -i kubernetes-cni_0.7.5-00_amd64_b38a324bb34f923d353203adf0e048f3b911f49fa32f1d82051a71ecfe2cd184.deb
+	# Install kubelet
+	sudo dpkg -i kubelet_1.16.0-00_amd64_e919939f5dad4bc7b0047fe2cf2870ab1946e87f948ab7f75bc1d63305436664_1.deb
+	# Install kubectl
+	sudo dpkg -i kubectl_1.16.0-00_amd64_679986772c12ed40781ae02317f3211f8615427c033194618ba2fdecc1cee43f.deb
+	# Install kubeadm
+	sudo dpkg -i kubeadm_1.16.0-00_amd64_b0fa26a7ac8cd90e9c3e388282828f320766264acc307b5bf45ffa79b5abed0c.deb
+	# Install dependencies (if any)
+	sudo apt-get install -f
 fi
 
 apt-mark hold docker.io kubernetes-cni kubelet kubeadm kubectl
