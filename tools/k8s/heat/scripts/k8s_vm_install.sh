@@ -154,9 +154,7 @@ apt-get update
 apt install -y socat ebtables ethtool conntrack
 
 # Download and install cri-tools
-wget https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/amd64/cri-tools_1.21.0~2_amd64.deb -O cri-tools.deb
 sudo dpkg -i cri-tools.deb
-rm cri-tools.deb
 
 RES=$(apt-get install -y virt-what curl jq netcat make ipset moreutils 2>&1)
 if [[ $RES == */var/lib/dpkg/lock* ]]; then
@@ -213,8 +211,6 @@ systemctl restart docker
 
 
 if [ -z ${KUBEVERSION} ]; then
-	git clone https://github.com/openaicellular/kubernetes-xenial.git
-	cd kubernetes-xenial
 	# Install kubernetes-cni
 	sudo dpkg -i kubernetes-cni_0.7.5-00_amd64_b38a324bb34f923d353203adf0e048f3b911f49fa32f1d82051a71ecfe2cd184.deb
 	# Install kubelet
@@ -226,8 +222,6 @@ if [ -z ${KUBEVERSION} ]; then
 	# Install dependencies (if any)
 	sudo apt-get install -f
 else
-	git clone https://github.com/openaicellular/kubernetes-xenial.git
-	cd kubernetes-xenial
 	# Install kubernetes-cni
 	sudo dpkg -i kubernetes-cni_0.7.5-00_amd64_b38a324bb34f923d353203adf0e048f3b911f49fa32f1d82051a71ecfe2cd184.deb
 	# Install kubelet
@@ -360,9 +354,9 @@ EOF
   # install Helm
   HELMV=$(cat /opt/config/helm_version.txt)
   HELMVERSION=${HELMV}
-  if [ ! -e helm-v${HELMVERSION}-linux-amd64.tar.gz ]; then
-    wget https://get.helm.sh/helm-v${HELMVERSION}-linux-amd64.tar.gz
-  fi
+  #if [ ! -e helm-v${HELMVERSION}-linux-amd64.tar.gz ]; then
+  #  wget https://get.helm.sh/helm-v${HELMVERSION}-linux-amd64.tar.gz
+  #fi
   cd /root && rm -rf Helm && mkdir Helm && cd Helm
   tar -xvf ../helm-v${HELMVERSION}-linux-amd64.tar.gz
   mv linux-amd64/helm /usr/local/bin/helm
