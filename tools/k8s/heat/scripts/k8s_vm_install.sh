@@ -354,9 +354,9 @@ EOF
   # install Helm
   HELMV=$(cat /opt/config/helm_version.txt)
   HELMVERSION=${HELMV}
-  #if [ ! -e helm-v${HELMVERSION}-linux-amd64.tar.gz ]; then
-  #  wget https://get.helm.sh/helm-v${HELMVERSION}-linux-amd64.tar.gz
-  #fi
+  if [ ! -e helm-v${HELMVERSION}-linux-amd64.tar.gz ]; then
+    wget https://get.helm.sh/helm-v${HELMVERSION}-linux-amd64.tar.gz
+  fi
   cd /root && rm -rf Helm && mkdir Helm && cd Helm
   tar -xvf ../helm-v${HELMVERSION}-linux-amd64.tar.gz
   mv linux-amd64/helm /usr/local/bin/helm
