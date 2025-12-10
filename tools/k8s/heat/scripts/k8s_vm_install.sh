@@ -139,12 +139,13 @@ elif [[ ${UBUNTU_RELEASE} == 20.* ]]; then
   echo "Installing on Ubuntu $UBUNTU_RELEASE (Focal Fossa)"
   if [ ! -z "${DOCKERV}" ]; then
     DOCKERVERSION="${DOCKERV}-0ubuntu1~20.04.4"
-  elif DOCKERVERSION=$(sudo apt-cache policy docker.io | grep -o '20\S*'); then
+  elif DOCKERVERSION=$(sudo apt-cache policy docker.io | grep -o '20.\S*' | grep 'ubuntu'); then
     echo Found docker.io version $DOCKERVERSION
-  elif DOCKERVERSION=$(sudo apt-cache policy docker.io | grep -o '19\S*'); then
+  elif DOCKERVERSION=$(sudo apt-cache policy docker.io | grep -o '19.\S*' | grep 'ubuntu'); then
     echo Found docker.io version $DOCKERVERSION
   else
     echo Installing latest docker.io version
+  fi
 else
   echo "Unsupported Ubuntu release ($UBUNTU_RELEASE) detected.  Exit."
   exit
