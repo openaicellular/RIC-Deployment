@@ -1,0 +1,17 @@
+#!/bin/sh
+
+./undeploy-ric-platform
+
+helm del --purge nfs-release-1
+
+kubectl create ns ricinfra
+helm install stable/nfs-server-provisioner --namespace ricinfra --name nfs-release-1
+kubectl patch storageclass nfs -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+
+./deploy-ric-platform -f ../RECIPE_EXAMPLE/PLATFORM/example_recipe_oran_e_release_modified_e2.yaml
+
+kubectl wait -n ricplt pod/ricplt-influxdb-meta-0 --for=condition=Ready --timeout=60000s
+
+kubectl exec -it -n ricplt ricplt-influxdb-meta-0 -- /bin/bash -c "influx -execute 'create database Data_Collector'"
+
+echo "Done RIC Deploy"

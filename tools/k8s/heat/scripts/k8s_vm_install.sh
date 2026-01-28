@@ -121,6 +121,8 @@ KUBEVERSION="${KUBEV}-00"
 CNIVERSION="${KUBECNIV}-00"
 DOCKERVERSION="${DOCKERV}"
 
+apt-get update && apt-get install -y apt-transport-https gnupg2 curl
+
 # adjust package version tag
 UBUNTU_RELEASE=$(lsb_release -r | sed 's/^[a-zA-Z:\t ]\+//g')
 if [[ ${UBUNTU_RELEASE} == 16.* ]]; then
@@ -137,6 +139,12 @@ elif [[ ${UBUNTU_RELEASE} == 20.* ]]; then
   echo "Installing on Ubuntu $UBUNTU_RELEASE (Focal Fossa)"
   if [ ! -z "${DOCKERV}" ]; then
     DOCKERVERSION="${DOCKERV}-0ubuntu1~20.04.4"
+  elif DOCKERVERSION=$(sudo apt-cache policy docker.io | grep -o '20.\S*' | grep -m 1 'ubuntu'); then
+    echo Found docker.io version $DOCKERVERSION
+  elif DOCKERVERSION=$(sudo apt-cache policy docker.io | grep -o '19.\S*' | grep -m 1 'ubuntu'); then
+    echo Found docker.io version $DOCKERVERSION
+  else
+    echo Installing latest docker.io version
   fi
 else
   echo "Unsupported Ubuntu release ($UBUNTU_RELEASE) detected.  Exit."
@@ -144,7 +152,6 @@ else
 fi
 
 
-apt-get update && apt-get install -y apt-transport-https gnupg2 curl
 
 # tell apt to retry 3 times if failed
 mkdir -p /etc/apt/apt.conf.d
